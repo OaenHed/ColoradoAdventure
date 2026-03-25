@@ -36,7 +36,11 @@ Before you begin, make sure the following are installed:
 
 > **Visual Studio workload check:** Open the Visual Studio Installer → click **Modify** on your VS 2022 install → make sure **ASP.NET and web development** is checked → click **Modify** to apply.
 
-> **Getting the `System.Runtime, Version=9.0.0.0` error?** This means the .NET 9 Runtime is not installed on your machine. Download and run the **ASP.NET Core 9.x Runtime** installer from [dotnet.microsoft.com/download/dotnet/9.0](https://dotnet.microsoft.com/download/dotnet/9.0), then try again. You can verify installation with `dotnet --list-runtimes` — you should see a line starting with `Microsoft.AspNetCore.App 9.`.
+> **Getting the `System.Runtime, Version=9.0.0.0` error?** This is almost always a build/restore issue. Follow these steps in order:
+> 1. Make sure the **ASP.NET Core 9.x Runtime** is installed ([dotnet.microsoft.com/download/dotnet/9.0](https://dotnet.microsoft.com/download/dotnet/9.0)). The full SDK installer from that page bundles both SDK and runtime.
+> 2. Run `dotnet restore` **followed by** `dotnet build` in the project folder. Just running `dotnet restore` is not enough — the build step generates the `runtimeconfig.json` that tells the host where to find the runtime.
+> 3. If you see *"A compatible .NET SDK was not found"* before or alongside the error, your .NET SDK was not recognized. Verify your SDK with `dotnet --list-sdks` — you should see at least one `9.x.x` entry. If not, re-install the .NET 9 SDK.
+> 4. Verify with `dotnet --list-runtimes` — you should see a line starting with `Microsoft.AspNetCore.App 9.`.
 
 ---
 
@@ -88,6 +92,9 @@ dotnet tool install --global dotnet-ef
 
 # Restore NuGet packages (REQUIRED before running ef commands)
 dotnet restore
+
+# Build the project (REQUIRED — generates the correct runtime configuration)
+dotnet build
 
 # Create the migration
 dotnet ef migrations add InitialCreate
@@ -201,8 +208,9 @@ If you prefer the command line over Visual Studio:
 # 0. Install the EF Core CLI tool (one-time only — skip if already installed)
 dotnet tool install --global dotnet-ef
 
-# 1. Restore packages
+# 1. Restore packages and build (both steps are required)
 dotnet restore
+dotnet build
 
 # 2. Create and apply the database
 dotnet ef migrations add InitialCreate
