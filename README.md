@@ -31,6 +31,7 @@ Before you begin, make sure the following are installed:
 | **Visual Studio 2022** (v17.8 or later) | [visualstudio.microsoft.com](https://visualstudio.microsoft.com/) — Community edition is free |
 | **.NET 10 SDK** | Included with Visual Studio 2022 17.12+, or [dotnet.microsoft.com/download](https://dotnet.microsoft.com/download) |
 | **SQL Server LocalDB** | Included automatically with Visual Studio when the **ASP.NET and web development** workload is installed |
+| **dotnet-ef CLI tool** | Run `dotnet tool install --global dotnet-ef` in any terminal after installing the .NET SDK |
 
 > **Visual Studio workload check:** Open the Visual Studio Installer → click **Modify** on your VS 2022 install → make sure **ASP.NET and web development** is checked → click **Modify** to apply.
 
@@ -74,21 +75,41 @@ Visual Studio will automatically restore all NuGet packages. You can watch the p
 
 The app uses **SQL Server LocalDB**, which ships with Visual Studio, so no extra database installation is needed.
 
-Run the Entity Framework migrations using the **Package Manager Console**:
+#### Option A — dotnet CLI (works in any terminal — recommended)
+
+Open a terminal (PowerShell, Command Prompt, VS Code terminal, etc.) in the project folder and run:
+
+```powershell
+# Install the EF Core CLI tool globally (one-time, skip if already installed)
+dotnet tool install --global dotnet-ef
+
+# Create the migration
+dotnet ef migrations add InitialCreate
+
+# Apply the migration and seed the database
+dotnet ef database update
+```
+
+> **Note:** If `dotnet-ef` was already installed at an older version you can upgrade it with `dotnet tool update --global dotnet-ef`.
+
+#### Option B — Visual Studio Package Manager Console
+
+> ⚠️ These commands **only work inside Visual Studio's Package Manager Console** — they will not work in PowerShell, Command Prompt, or any other terminal. If you try to run `Add-Migration` outside of Visual Studio you will get a "not recognized as a cmdlet" error. Use Option A above if you are working in a regular terminal.
 
 1. In Visual Studio, go to **Tools → NuGet Package Manager → Package Manager Console**.
-2. In the console panel that opens at the bottom, run:
+2. Make sure the **Default Project** dropdown in the PMC toolbar is set to `ColoradoAdventure`.
+3. Run:
    ```powershell
    Add-Migration InitialCreate
    ```
-3. Then apply the migration to create the database:
+4. Then apply the migration:
    ```powershell
    Update-Database
    ```
 
-This creates a `ColoradoAdventureDb` database in LocalDB and seeds it with 10 sample Colorado River tours automatically.
+---
 
-> **Tip:** If the `Add-Migration` command isn't found, run `Install-Package Microsoft.EntityFrameworkCore.Tools` first, or ensure the **Default Project** dropdown in the PMC toolbar is set to `ColoradoAdventure`.
+Both options create a `ColoradoAdventureDb` database in LocalDB and seed it with 10 sample Colorado River tours automatically.
 
 ---
 
@@ -153,6 +174,9 @@ If you have a full SQL Server instance, replace `(localdb)\\mssqllocaldb` with y
 If you prefer the command line over Visual Studio:
 
 ```bash
+# 0. Install the EF Core CLI tool (one-time only — skip if already installed)
+dotnet tool install --global dotnet-ef
+
 # 1. Restore packages
 dotnet restore
 
