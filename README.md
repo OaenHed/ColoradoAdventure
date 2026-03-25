@@ -135,6 +135,16 @@ The app is available at:
 
 You should see the Colorado Adventure homepage with the hero section and featured tours. 🚣
 
+#### Client-side (JavaScript) Debugging in Visual Studio
+
+Visual Studio 2022 attaches the JavaScript debugger automatically when you launch with **Edge** or **Chrome**:
+
+1. In the toolbar, click the arrow next to the ▶ Run button and select **Microsoft Edge** or **Google Chrome** as the browser.
+2. Press **F5**. The browser will open and VS will attach to it.
+3. Set breakpoints in any `.js` file (e.g. `wwwroot/js/site.js`) — execution will pause in Visual Studio, not in the browser DevTools.
+
+> **Tip:** If you see the warning *"The WebRootPath was not found … bin\Debug\net10.0\wwwroot"*, the `workingDirectory` in `launchSettings.json` is already set to `$(ProjectDir)` which corrects this. Make sure you are using the **https** or **http** profile (shown in the VS run dropdown), not a manually created executable launch.
+
 ---
 
 ### Step 5 — Create an Account
@@ -211,6 +221,34 @@ info: Microsoft.Hosting.Lifetime[14]
 
 > **Note:** Unlike Visual Studio, `dotnet run` does **not** open a browser automatically — you must open it yourself.  
 > To stop the app, press **Ctrl+C** in the terminal.
+
+---
+
+## 🛠️ VS Code Debugging
+
+The repository includes `.vscode/launch.json` and `.vscode/tasks.json` so you can debug in **Visual Studio Code** with full server-side *and* client-side support.
+
+### Prerequisites
+
+Install the **C# Dev Kit** extension (or the older **C#** extension) from the VS Code marketplace.
+
+### Launch configurations
+
+Open the project folder (`File → Open Folder`) in VS Code and use the **Run and Debug** panel (Ctrl+Shift+D). Three configurations are available:
+
+| Configuration | What it does |
+|---|---|
+| **.NET (HTTPS)** | Starts the server and opens your default browser automatically. Good for server-side only debugging. |
+| **.NET (HTTPS) + Edge (client-side debug)** | Starts the server, opens Edge, and attaches the VS Code JavaScript debugger so you can set breakpoints in `wwwroot/js` files. |
+| **.NET (HTTPS) + Chrome (client-side debug)** | Same as above but uses Chrome. |
+
+### How to use
+
+1. Press **F5** (or click the green ▶ in the Run and Debug panel) and select one of the configurations above.
+2. VS Code will build the project, start Kestrel, and open the browser automatically — no need to find the URL manually.
+3. For the Edge/Chrome configurations, set a breakpoint in any `.js` file in `wwwroot/js/` — VS Code will pause execution there just like a C# breakpoint.
+
+> **Note:** The `cwd` in each configuration is set to `${workspaceFolder}` (the project root), which ensures ASP.NET Core finds `wwwroot` correctly and prevents the *"WebRootPath was not found"* warning.
 
 ---
 
