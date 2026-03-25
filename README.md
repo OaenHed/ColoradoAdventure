@@ -83,6 +83,9 @@ Open a terminal (PowerShell, Command Prompt, VS Code terminal, etc.) in the proj
 # Install the EF Core CLI tool globally (one-time, skip if already installed)
 dotnet tool install --global dotnet-ef
 
+# Restore NuGet packages (REQUIRED before running ef commands)
+dotnet restore
+
 # Create the migration
 dotnet ef migrations add InitialCreate
 
@@ -91,6 +94,8 @@ dotnet ef database update
 ```
 
 > **Note:** If `dotnet-ef` was already installed at an older version you can upgrade it with `dotnet tool update --global dotnet-ef`.
+>
+> **NETSDK1004 error?** If you see `Assets file 'obj/project.assets.json' not found`, it means `dotnet restore` was not run first. Run `dotnet restore` and then retry the `dotnet ef` commands.
 
 #### Option B — Visual Studio Package Manager Console
 
