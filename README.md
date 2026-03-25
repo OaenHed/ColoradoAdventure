@@ -1,7 +1,7 @@
 # ColoradoAdventure
 ## Colorado Adventure - Kayaking Trip Booking App
 
-A full-featured ASP.NET Core 10 MVC web application for booking Colorado River kayaking trips.
+A full-featured ASP.NET Core 9 MVC web application for booking Colorado River kayaking trips.
 
 ### Features
 - Browse 10 unique Colorado River kayaking tours (Beginner → Expert)
@@ -13,7 +13,7 @@ A full-featured ASP.NET Core 10 MVC web application for booking Colorado River k
 - Responsive design with custom adventure-themed CSS
 
 ### Tech Stack
-- ASP.NET Core 10 MVC
+- ASP.NET Core 9 MVC
 - Entity Framework Core with SQL Server
 - ASP.NET Core Identity
 - Bootstrap 5 + Font Awesome 6
@@ -28,12 +28,15 @@ Before you begin, make sure the following are installed:
 
 | Tool | Where to get it |
 |------|----------------|
-| **Visual Studio 2022** (v17.8 or later) | [visualstudio.microsoft.com](https://visualstudio.microsoft.com/) — Community edition is free |
-| **.NET 10 SDK** | Included with Visual Studio 2022 17.12+, or [dotnet.microsoft.com/download](https://dotnet.microsoft.com/download) |
+| **Visual Studio 2022** (v17.12 or later) | [visualstudio.microsoft.com](https://visualstudio.microsoft.com/) — Community edition is free |
+| **.NET 9 SDK** | Included with Visual Studio 2022 17.12+, or [dotnet.microsoft.com/download](https://dotnet.microsoft.com/download) |
+| **ASP.NET Core 9 Runtime** | Required to *run* the app. Download the **"ASP.NET Core Runtime 9.x"** installer from [dotnet.microsoft.com/download/dotnet/9.0](https://dotnet.microsoft.com/download/dotnet/9.0). *(Note: installing just the SDK is not enough — you need the runtime too. The full SDK installer from that page bundles both.)* |
 | **SQL Server LocalDB** | Included automatically with Visual Studio when the **ASP.NET and web development** workload is installed |
 | **dotnet-ef CLI tool** | Run `dotnet tool install --global dotnet-ef` in any terminal after installing the .NET SDK |
 
 > **Visual Studio workload check:** Open the Visual Studio Installer → click **Modify** on your VS 2022 install → make sure **ASP.NET and web development** is checked → click **Modify** to apply.
+
+> **Getting the `System.Runtime, Version=9.0.0.0` error?** This means the .NET 9 Runtime is not installed on your machine. Download and run the **ASP.NET Core 9.x Runtime** installer from [dotnet.microsoft.com/download/dotnet/9.0](https://dotnet.microsoft.com/download/dotnet/9.0), then try again. You can verify installation with `dotnet --list-runtimes` — you should see a line starting with `Microsoft.AspNetCore.App 9.`.
 
 ---
 
@@ -65,7 +68,7 @@ If the project didn't open automatically after cloning:
 2. Navigate to your cloned folder and select **`ColoradoAdventure.slnx`**.
 3. Click **Open**.
 
-> **Tip:** You can also double-click `ColoradoAdventure.slnx` in Windows Explorer to open it directly in Visual Studio. The `.slnx` format is the modern Visual Studio solution format introduced in VS 2022 and fully supported in .NET 10.
+> **Tip:** You can also double-click `ColoradoAdventure.slnx` in Windows Explorer to open it directly in Visual Studio. The `.slnx` format is the modern Visual Studio solution format introduced in VS 2022 and fully supported in .NET 9.
 
 Visual Studio will automatically restore all NuGet packages. You can watch the progress in the bottom status bar. Wait until it says **Ready**.
 
@@ -143,7 +146,7 @@ Visual Studio 2022 attaches the JavaScript debugger automatically when you launc
 2. Press **F5**. The browser will open and VS will attach to it.
 3. Set breakpoints in any `.js` file (e.g. `wwwroot/js/site.js`) — execution will pause in Visual Studio, not in the browser DevTools.
 
-> **Tip:** If you see the warning *"The WebRootPath was not found … bin\Debug\net10.0\wwwroot"*, the `workingDirectory` in `launchSettings.json` is already set to `$(ProjectDir)` which corrects this. Make sure you are using the **https** or **http** profile (shown in the VS run dropdown), not a manually created executable launch.
+> **Tip:** If you see the warning *"The WebRootPath was not found … bin\Debug\net9.0\wwwroot"*, the `workingDirectory` in `launchSettings.json` is already set to `$(ProjectDir)` which corrects this. Make sure you are using the **https** or **http** profile (shown in the VS run dropdown), not a manually created executable launch.
 
 ---
 
