@@ -52,17 +52,19 @@ Before you begin, make sure the following are installed:
 ```bash
 git clone https://github.com/OaenHed/ColoradoAdventure.git
 cd ColoradoAdventure
-start ColoradoAdventure.csproj
+start ColoradoAdventure.slnx
 ```
 
 ---
 
-### Step 2 — Open the Project
+### Step 2 — Open the Solution
 
 If the project didn't open automatically after cloning:
 1. Go to **File → Open → Project/Solution**.
-2. Navigate to your cloned folder and select **`ColoradoAdventure.csproj`**.
+2. Navigate to your cloned folder and select **`ColoradoAdventure.slnx`**.
 3. Click **Open**.
+
+> **Tip:** You can also double-click `ColoradoAdventure.slnx` in Windows Explorer to open it directly in Visual Studio. The `.slnx` format is the modern Visual Studio solution format introduced in VS 2022 and fully supported in .NET 10.
 
 Visual Studio will automatically restore all NuGet packages. You can watch the progress in the bottom status bar. Wait until it says **Ready**.
 
@@ -180,6 +182,8 @@ The project includes a `web.config` pre-configured for IIS with the ASP.NET Core
 
 ```
 ColoradoAdventure/
+├── ColoradoAdventure.slnx  # Visual Studio solution file — open this in VS 2022
+├── ColoradoAdventure.csproj
 ├── Controllers/       # HomeController, ToursController, BookingsController, AdminController
 ├── Data/              # ApplicationDbContext with EF Core seed data (10 tours)
 ├── Models/            # Tour, Booking, Review, ApplicationUser, enums
