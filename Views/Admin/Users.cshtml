@@ -1,0 +1,42 @@
+@model IEnumerable<ColoradoAdventure.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<div class="admin-header py-4">
+    <div class="container">
+        <h1 class="fw-bold"><i class="fas fa-users me-2"></i>Manage Users</h1>
+    </div>
+</div>
+
+<section class="py-4">
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Phone</th>
+                        <th>Joined</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td><strong>@user.UserName</strong></td>
+                            <td>@user.Email</td>
+                            <td>@(user.City ?? "-")</td>
+                            <td>@(user.State ?? "-")</td>
+                            <td>@(user.Phone ?? "-")</td>
+                            <td>@user.CreatedDate.ToString("MMM dd, yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

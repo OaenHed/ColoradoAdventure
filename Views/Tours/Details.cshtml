@@ -1,0 +1,133 @@
+@model ColoradoAdventure.Models.Tour
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="tour-detail-hero" style="background-image: url('@Model.ImageUrl')">
+    <div class="hero-overlay"></div>
+    <div class="container position-relative py-6 text-white">
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/" class="text-white-50">Home</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Tours" asp-action="Index" class="text-white-50">Tours</a></li>
+                <li class="breadcrumb-item active text-white">@Model.Name</li>
+            </ol>
+        </nav>
+        <span class="difficulty-badge-lg @Model.Difficulty.ToString().ToLower() mb-3 d-inline-block">@Model.Difficulty</span>
+        <h1 class="display-4 fw-bold">@Model.Name</h1>
+        <div class="d-flex gap-4 mt-3">
+            <span><i class="fas fa-clock me-2"></i>@Model.Duration</span>
+            <span><i class="fas fa-users me-2"></i>Max @Model.MaxCapacity people</span>
+            <span>
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <i class="fas fa-star @(i <= (int)Model.Rating ? "text-warning" : "text-white-50")"></i>
+                }
+                <span class="ms-1">@Model.Rating</span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-8">
+                <div class="content-card mb-4">
+                    <h3 class="mb-3">About This Tour</h3>
+                    <p class="lead">@Model.Description</p>
+                </div>
+
+                <div class="content-card mb-4">
+                    <h4 class="mb-3">What's Included</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="included-list">
+                                <li><i class="fas fa-check text-success me-2"></i>Professional certified guide</li>
+                                <li><i class="fas fa-check text-success me-2"></i>All kayaking equipment</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Safety gear &amp; life jackets</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Safety briefing &amp; training</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="included-list">
+                                <li><i class="fas fa-check text-success me-2"></i>Transportation to launch site</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Waterproof dry bags</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Emergency first aid kit</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Post-trip photos</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h4 class="mb-4">Reviews (@Model.Reviews.Count)</h4>
+                    @if (Model.Reviews.Any())
+                    {
+                        @foreach (var review in Model.Reviews.OrderByDescending(r => r.CreatedDate).Take(5))
+                        {
+                            <div class="review-item mb-4 pb-4 border-bottom">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="reviewer-avatar">
+                                            @(review.User?.UserName?.Substring(0, 2).ToUpper() ?? "?")
+                                        </div>
+                                        <div>
+                                            <strong>@(review.User?.UserName ?? "Anonymous")</strong>
+                                            <div>
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    <i class="fas fa-star @(i <= review.Rating ? "text-warning" : "text-muted") small"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">@review.CreatedDate.ToString("MMM dd, yyyy")</small>
+                                </div>
+                                <p class="mb-0">@review.Comment</p>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted">No reviews yet. Be the first to share your experience!</p>
+                    }
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="booking-sidebar sticky-top" style="top: 90px;">
+                    <div class="price-display mb-4">
+                        <span class="price-from-text">Starting from</span>
+                        <div class="price-big">$@Model.Price <span class="price-per-person">/ person</span></div>
+                    </div>
+                    <div class="tour-quick-info mb-4">
+                        <div class="info-row">
+                            <span><i class="fas fa-clock text-primary me-2"></i>Duration</span>
+                            <strong>@Model.Duration</strong>
+                        </div>
+                        <div class="info-row">
+                            <span><i class="fas fa-users text-primary me-2"></i>Group Size</span>
+                            <strong>Up to @Model.MaxCapacity people</strong>
+                        </div>
+                        <div class="info-row">
+                            <span><i class="fas fa-mountain text-primary me-2"></i>Difficulty</span>
+                            <strong>@Model.Difficulty</strong>
+                        </div>
+                        <div class="info-row">
+                            <span><i class="fas fa-star text-primary me-2"></i>Rating</span>
+                            <strong>@Model.Rating / 5.0</strong>
+                        </div>
+                    </div>
+                    <a asp-controller="Bookings" asp-action="Create" asp-route-tourId="@Model.Id"
+                       class="btn btn-adventure btn-lg w-100 mb-3">
+                        <i class="fas fa-calendar-check me-2"></i>Book This Tour
+                    </a>
+                    <div class="text-center text-muted small">
+                        <i class="fas fa-shield-alt me-1 text-success"></i>Free cancellation up to 48hrs before
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

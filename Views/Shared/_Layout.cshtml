@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Colorado Adventure</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/adventure.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark adventure-navbar fixed-top">
+        <div class="container">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                <i class="fas fa-water me-2"></i>
+                <span class="brand-text">Colorado Adventure</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Tours" asp-action="Index">Tours</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="About">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Contact">Contact</a>
+                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-warning" asp-controller="Admin" asp-action="Index">
+                                <i class="fas fa-cog me-1"></i>Admin
+                            </a>
+                        </li>
+                    }
+                </ul>
+                <ul class="navbar-nav">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-1"></i>@User.Identity.Name
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" asp-controller="Bookings" asp-action="MyBookings">
+                                    <i class="fas fa-calendar me-2"></i>My Bookings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                        <button type="submit" class="dropdown-item">
+                                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-adventure ms-2" asp-area="Identity" asp-page="/Account/Register">Sign Up</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <footer class="adventure-footer mt-5">
+        <div class="container">
+            <div class="row py-5">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="text-white fw-bold mb-3">
+                        <i class="fas fa-water me-2"></i>Colorado Adventure
+                    </h5>
+                    <p class="text-light opacity-75">Expert-guided kayaking trips on the Colorado River. Creating unforgettable adventures since 2010.</p>
+                    <div class="social-links mt-3">
+                        <a href="#" class="text-light me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <h6 class="text-warning fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-controller="Tours" asp-action="Index">All Tours</a></li>
+                        <li><a asp-controller="Home" asp-action="About">About Us</a></li>
+                        <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4 mb-4">
+                    <h6 class="text-warning fw-bold mb-3">Tour Types</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a asp-controller="Tours" asp-action="Index" asp-route-difficulty="Beginner">Beginner Tours</a></li>
+                        <li><a asp-controller="Tours" asp-action="Index" asp-route-difficulty="Intermediate">Intermediate Tours</a></li>
+                        <li><a asp-controller="Tours" asp-action="Index" asp-route-difficulty="Advanced">Advanced Tours</a></li>
+                        <li><a asp-controller="Tours" asp-action="Index" asp-route-difficulty="Expert">Expert Tours</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4 mb-4">
+                    <h6 class="text-warning fw-bold mb-3">Contact Info</h6>
+                    <ul class="list-unstyled text-light">
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-warning"></i>Grand Junction, CO 81501</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2 text-warning"></i>(970) 555-KAYAK</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2 text-warning"></i>info@coloradoadventure.com</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="border-secondary">
+            <div class="row py-3">
+                <div class="col text-center text-light opacity-50">
+                    <small>&copy; @DateTime.Now.Year Colorado Adventure. All rights reserved.</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
