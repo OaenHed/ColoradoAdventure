@@ -29,18 +29,17 @@ Before you begin, make sure the following are installed:
 | Tool | Where to get it |
 |------|----------------|
 | **Visual Studio 2022** (v17.12 or later) | [visualstudio.microsoft.com](https://visualstudio.microsoft.com/) — Community edition is free |
-| **.NET 9 SDK** | Included with Visual Studio 2022 17.12+, or [dotnet.microsoft.com/download](https://dotnet.microsoft.com/download) |
+| **.NET 9 SDK** | Included with Visual Studio 2022 17.12+, or install the **.NET 9 SDK** from [dotnet.microsoft.com/download/dotnet/9.0](https://dotnet.microsoft.com/download/dotnet/9.0). Any .NET SDK version 9.x or later works. |
 | **ASP.NET Core 9 Runtime** | Required to *run* the app. Download the **"ASP.NET Core Runtime 9.x"** installer from [dotnet.microsoft.com/download/dotnet/9.0](https://dotnet.microsoft.com/download/dotnet/9.0). *(Note: installing just the SDK is not enough — you need the runtime too. The full SDK installer from that page bundles both.)* |
 | **SQL Server LocalDB** | Included automatically with Visual Studio when the **ASP.NET and web development** workload is installed |
 | **dotnet-ef CLI tool** | Run `dotnet tool install --global dotnet-ef` in any terminal after installing the .NET SDK |
 
 > **Visual Studio workload check:** Open the Visual Studio Installer → click **Modify** on your VS 2022 install → make sure **ASP.NET and web development** is checked → click **Modify** to apply.
 
-> **Getting the `System.Runtime, Version=9.0.0.0` error?** This is almost always a build/restore issue. Follow these steps in order:
-> 1. Make sure the **ASP.NET Core 9.x Runtime** is installed ([dotnet.microsoft.com/download/dotnet/9.0](https://dotnet.microsoft.com/download/dotnet/9.0)). The full SDK installer from that page bundles both SDK and runtime.
-> 2. Run `dotnet restore` **followed by** `dotnet build` in the project folder. Just running `dotnet restore` is not enough — the build step generates the `runtimeconfig.json` that tells the host where to find the runtime.
-> 3. If you see *"A compatible .NET SDK was not found"* before or alongside the error, your .NET SDK was not recognized. Verify your SDK with `dotnet --list-sdks` — you should see at least one `9.x.x` entry. If not, re-install the .NET 9 SDK.
-> 4. Verify with `dotnet --list-runtimes` — you should see a line starting with `Microsoft.AspNetCore.App 9.`.
+> **Getting the `System.Runtime, Version=9.0.0.0` error?** This means the app is running without a valid .NET 9 runtime. Work through these steps:
+> 1. **Install the .NET 9 runtime** — Download and run the **ASP.NET Core 9.x Runtime** installer from [dotnet.microsoft.com/download/dotnet/9.0](https://dotnet.microsoft.com/download/dotnet/9.0). Confirm with `dotnet --list-runtimes` — you should see `Microsoft.AspNetCore.App 9.x.x`.
+> 2. **Do a clean rebuild** — Old binaries in `bin\` can cause this even after a runtime install. In Visual Studio: **Build → Clean Solution**, then **Build → Rebuild Solution**. Or from the terminal: `dotnet clean && dotnet build`.
+> 3. **Never run the `.dll` or `.exe` directly from the `bin\Debug\net9.0\` folder** — always use Visual Studio's **Start Debugging (F5)** or `dotnet run` from the *project root* folder. Running from the bin folder can pick up stale configuration files.
 
 ---
 

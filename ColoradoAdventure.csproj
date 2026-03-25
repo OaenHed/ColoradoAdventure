@@ -4,6 +4,9 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Roll forward to the latest installed .NET 9 patch so the app runs on any
+         9.0.x runtime (e.g. 9.0.13 or 9.0.14) without requiring an exact match. -->
+    <RollForward>LatestMinor</RollForward>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,6 +1,5 @@
 {
   "configProperties": {
     "System.GC.Server": true
-  },
-  "rollForward": "LatestMinor"
+  }
 }
