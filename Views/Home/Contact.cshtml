@@ -1,0 +1,80 @@
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<div class="page-header">
+    <div class="container text-center text-white py-5">
+        <h1 class="display-4 fw-bold">Contact Us</h1>
+        <p class="lead">We'd love to hear from you</p>
+    </div>
+</div>
+
+<section class="py-6">
+    <div class="container">
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+        <div class="row g-5">
+            <div class="col-lg-7">
+                <div class="contact-form-card">
+                    <h3 class="mb-4">Send Us a Message</h3>
+                    <form asp-action="Contact" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Your Name</label>
+                            <input type="text" name="name" class="form-control form-control-lg" placeholder="John Doe" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Email Address</label>
+                            <input type="email" name="email" class="form-control form-control-lg" placeholder="john@example.com" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Message</label>
+                            <textarea name="message" class="form-control form-control-lg" rows="5" placeholder="Tell us about your adventure plans..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-adventure btn-lg w-100">
+                            <i class="fas fa-paper-plane me-2"></i>Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="contact-info">
+                    <h3 class="mb-4">Get In Touch</h3>
+                    <div class="contact-item mb-4">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <strong>Our Location</strong>
+                            <p class="text-muted mb-0">123 River Drive, Grand Junction, CO 81501</p>
+                        </div>
+                    </div>
+                    <div class="contact-item mb-4">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div>
+                            <strong>Phone</strong>
+                            <p class="text-muted mb-0">(970) 555-KAYAK (52925)</p>
+                        </div>
+                    </div>
+                    <div class="contact-item mb-4">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <strong>Email</strong>
+                            <p class="text-muted mb-0">info@coloradoadventure.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item mb-4">
+                        <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                        <div>
+                            <strong>Operating Hours</strong>
+                            <p class="text-muted mb-0">May - October: Daily 7am - 7pm<br>Nov - April: Weekends 9am - 5pm</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

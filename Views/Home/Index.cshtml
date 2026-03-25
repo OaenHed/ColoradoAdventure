@@ -1,0 +1,249 @@
+@model IEnumerable<ColoradoAdventure.Models.Tour>
+@{
+    ViewData["Title"] = "Home";
+    Layout = "_Layout";
+}
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="container text-center text-white">
+            <div class="hero-badge mb-3">
+                <i class="fas fa-star text-warning me-1"></i>
+                <span>Colorado's #1 Kayaking Experience</span>
+            </div>
+            <h1 class="display-2 fw-black hero-title">
+                Conquer the<br>
+                <span class="text-warning">Colorado River</span>
+            </h1>
+            <p class="lead hero-subtitle mt-3 mb-4">
+                From serene float trips to heart-pounding whitewater, discover Colorado's most spectacular river adventures with expert guides.
+            </p>
+            <div class="hero-buttons">
+                <a asp-controller="Tours" asp-action="Index" class="btn btn-adventure btn-lg me-3">
+                    <i class="fas fa-compass me-2"></i>Explore Tours
+                </a>
+                <a asp-controller="Home" asp-action="About" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-play-circle me-2"></i>Our Story
+                </a>
+            </div>
+            <div class="hero-stats mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-auto text-center px-4">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Unique Tours</div>
+                    </div>
+                    <div class="col-auto text-center px-4 border-start border-end border-light border-opacity-25">
+                        <div class="stat-number">5000+</div>
+                        <div class="stat-label">Happy Adventurers</div>
+                    </div>
+                    <div class="col-auto text-center px-4">
+                        <div class="stat-number">14+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-scroll">
+        <a href="#featured-tours" class="text-white">
+            <i class="fas fa-chevron-down fa-bounce"></i>
+        </a>
+    </div>
+</section>
+
+<!-- Featured Tours -->
+<section id="featured-tours" class="py-6 bg-light">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <span class="section-badge">TOP PICKS</span>
+            <h2 class="section-title">Featured Adventures</h2>
+            <p class="section-subtitle">Our most popular Colorado River experiences</p>
+        </div>
+        <div class="row g-4">
+            @foreach (var tour in Model)
+            {
+                <div class="col-lg-4 col-md-6">
+                    <div class="tour-card">
+                        <div class="tour-card-image">
+                            <img src="@tour.ImageUrl" alt="@tour.Name" loading="lazy">
+                            <div class="tour-card-badge @tour.Difficulty.ToString().ToLower()">
+                                @tour.Difficulty
+                            </div>
+                            <div class="tour-card-overlay">
+                                <a asp-controller="Tours" asp-action="Details" asp-route-id="@tour.Id" class="btn btn-light">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tour-card-body">
+                            <h5 class="tour-card-title">@tour.Name</h5>
+                            <div class="tour-card-meta">
+                                <span><i class="fas fa-clock text-primary me-1"></i>@tour.Duration</span>
+                                <span><i class="fas fa-users text-primary me-1"></i>Max @tour.MaxCapacity</span>
+                            </div>
+                            <div class="tour-card-rating">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= (int)tour.Rating)
+                                    {
+                                        <i class="fas fa-star text-warning"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="far fa-star text-warning"></i>
+                                    }
+                                }
+                                <span class="ms-1 text-muted small">(@tour.Rating)</span>
+                            </div>
+                            <div class="tour-card-footer">
+                                <div class="tour-price">
+                                    <span class="price-from">From</span>
+                                    <span class="price-amount">$@tour.Price</span>
+                                    <span class="price-per">/ person</span>
+                                </div>
+                                <a asp-controller="Bookings" asp-action="Create" asp-route-tourId="@tour.Id" class="btn btn-adventure btn-sm">
+                                    Book Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="text-center mt-5">
+            <a asp-controller="Tours" asp-action="Index" class="btn btn-outline-primary btn-lg">
+                View All 10 Tours <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="why-us-section py-6">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <span class="section-badge">WHY US</span>
+            <h2 class="section-title">The Colorado Adventure Difference</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h5>Safety First</h5>
+                    <p>All guides are certified by the American Canoe Association with extensive wilderness first aid training.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h5>Expert Guides</h5>
+                    <p>Our guides average 10+ years of experience on the Colorado River and surrounding waterways.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h5>Eco-Friendly</h5>
+                    <p>We're committed to Leave No Trace principles and supporting local conservation efforts.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <h5>100% Satisfaction</h5>
+                    <p>We guarantee an unforgettable experience or we'll make it right. Your adventure, your way.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials-section py-6 bg-light">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <span class="section-badge">REVIEWS</span>
+            <h2 class="section-title">What Our Adventurers Say</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <div class="stars mb-3">
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                    </div>
+                    <p class="testimonial-text">"The Grand Canyon Day Trip was absolutely life-changing! Our guide Jake was incredibly knowledgeable and made the whole experience feel safe and exhilarating."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SM</div>
+                        <div>
+                            <strong>Sarah M.</strong>
+                            <small class="text-muted d-block">Denver, CO</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <div class="stars mb-3">
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                    </div>
+                    <p class="testimonial-text">"We took the family on the Colorado River Float Trip and everyone from age 8 to 65 had a blast! Will definitely be back for the intermediate tour next summer."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">TJ</div>
+                        <div>
+                            <strong>The Johnson Family</strong>
+                            <small class="text-muted d-block">Austin, TX</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <div class="stars mb-3">
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                    </div>
+                    <p class="testimonial-text">"The Westwater Canyon Whitewater tour was epic! Best adrenaline rush of my life. The guides are top-notch professionals. Already booked the Cataract Canyon Expedition!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MR</div>
+                        <div>
+                            <strong>Mike R.</strong>
+                            <small class="text-muted d-block">Boulder, CO</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Banner -->
+<section class="cta-section">
+    <div class="container text-center text-white py-6">
+        <h2 class="display-5 fw-bold mb-3">Ready for Your Next Adventure?</h2>
+        <p class="lead mb-4">Book today and experience the magic of the Colorado River</p>
+        <a asp-controller="Tours" asp-action="Index" class="btn btn-warning btn-lg fw-bold">
+            <i class="fas fa-calendar-check me-2"></i>Book Your Trip Now
+        </a>
+    </div>
+</section>

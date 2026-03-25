@@ -1,0 +1,117 @@
+@model IEnumerable<ColoradoAdventure.Models.Tour>
+@{
+    ViewData["Title"] = "All Tours";
+}
+
+<div class="page-header">
+    <div class="container text-center text-white py-5">
+        <h1 class="display-4 fw-bold">Colorado River Tours</h1>
+        <p class="lead">Find the perfect adventure for your skill level and schedule</p>
+    </div>
+</div>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-3">
+                <div class="filter-sidebar">
+                    <h5 class="filter-title"><i class="fas fa-filter me-2"></i>Filter Tours</h5>
+                    <form asp-action="Index" method="get">
+                        <div class="filter-group">
+                            <label class="filter-label">Difficulty Level</label>
+                            @foreach (var diff in Enum.GetValues<ColoradoAdventure.Models.Difficulty>())
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="difficulty"
+                                           value="@diff" id="diff_@diff"
+                                           @(ViewBag.Difficulty == diff.ToString() ? "checked" : "")>
+                                    <label class="form-check-label" for="diff_@diff">
+                                        <span class="difficulty-dot @diff.ToString().ToLower()"></span>
+                                        @diff
+                                    </label>
+                                </div>
+                            }
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="difficulty" value="" id="diff_all"
+                                       @(ViewBag.Difficulty == null ? "checked" : "")>
+                                <label class="form-check-label" for="diff_all">All Levels</label>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Price Range</label>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <input type="number" name="minPrice" class="form-control form-control-sm"
+                                           placeholder="Min $" value="@ViewBag.MinPrice">
+                                </div>
+                                <div class="col-6">
+                                    <input type="number" name="maxPrice" class="form-control form-control-sm"
+                                           placeholder="Max $" value="@ViewBag.MaxPrice">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-adventure w-100 mt-3">Apply Filters</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary w-100 mt-2">Clear Filters</a>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <p class="text-muted mb-0">Showing <strong>@Model.Count()</strong> tours</p>
+                </div>
+                <div class="row g-4">
+                    @foreach (var tour in Model)
+                    {
+                        <div class="col-md-6 col-xl-4">
+                            <div class="tour-card h-100">
+                                <div class="tour-card-image">
+                                    <img src="@tour.ImageUrl" alt="@tour.Name" loading="lazy">
+                                    <div class="tour-card-badge @tour.Difficulty.ToString().ToLower()">
+                                        @tour.Difficulty
+                                    </div>
+                                    <div class="tour-card-overlay">
+                                        <a asp-action="Details" asp-route-id="@tour.Id" class="btn btn-light btn-sm">View Details</a>
+                                    </div>
+                                </div>
+                                <div class="tour-card-body">
+                                    <h6 class="tour-card-title">@tour.Name</h6>
+                                    <div class="tour-card-meta mb-2">
+                                        <span><i class="fas fa-clock text-primary me-1"></i>@tour.Duration</span>
+                                        <span><i class="fas fa-users text-primary me-1"></i>Max @tour.MaxCapacity</span>
+                                    </div>
+                                    <p class="small text-muted tour-description">@(tour.Description.Length > 80 ? tour.Description.Substring(0, 80) + "..." : tour.Description)</p>
+                                    <div class="tour-card-rating mb-2">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <i class="fas fa-star @(i <= (int)tour.Rating ? "text-warning" : "text-muted") small"></i>
+                                        }
+                                        <span class="ms-1 text-muted small">@tour.Rating</span>
+                                    </div>
+                                    <div class="tour-card-footer">
+                                        <div class="tour-price">
+                                            <span class="price-amount">$@tour.Price</span>
+                                            <span class="price-per small"> / person</span>
+                                        </div>
+                                        <a asp-controller="Bookings" asp-action="Create" asp-route-tourId="@tour.Id" class="btn btn-adventure btn-sm">
+                                            Book Now
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                @if (!Model.Any())
+                {
+                    <div class="text-center py-5">
+                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                        <h4 class="text-muted">No tours found</h4>
+                        <p>Try adjusting your filters</p>
+                        <a asp-action="Index" class="btn btn-adventure">View All Tours</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

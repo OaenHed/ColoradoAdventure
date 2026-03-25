@@ -1,0 +1,72 @@
+@model IEnumerable<ColoradoAdventure.Models.Tour>
+@{
+    ViewData["Title"] = "Manage Tours";
+}
+
+<div class="admin-header py-4">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="fw-bold"><i class="fas fa-map-marked-alt me-2"></i>Manage Tours</h1>
+        </div>
+        <a asp-controller="Tours" asp-action="Create" class="btn btn-adventure">
+            <i class="fas fa-plus me-2"></i>Add New Tour
+        </a>
+    </div>
+</div>
+
+<section class="py-4">
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Tour</th>
+                        <th>Difficulty</th>
+                        <th>Price</th>
+                        <th>Duration</th>
+                        <th>Rating</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tour in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <img src="@tour.ImageUrl" alt="@tour.Name" class="rounded"
+                                         width="60" height="40" style="object-fit:cover">
+                                    <strong>@tour.Name</strong>
+                                </div>
+                            </td>
+                            <td><span class="badge @tour.Difficulty.ToString().ToLower()">@tour.Difficulty</span></td>
+                            <td class="fw-bold">$@tour.Price</td>
+                            <td>@tour.Duration</td>
+                            <td>
+                                <i class="fas fa-star text-warning me-1"></i>@tour.Rating
+                            </td>
+                            <td>
+                                @if (tour.IsActive)
+                                {
+                                    <span class="badge bg-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Inactive</span>
+                                }
+                            </td>
+                            <td>
+                                <a asp-controller="Tours" asp-action="Edit" asp-route-id="@tour.Id"
+                                   class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                                <a asp-controller="Tours" asp-action="Delete" asp-route-id="@tour.Id"
+                                   class="btn btn-sm btn-outline-danger"
+                                   onclick="return confirm('Deactivate this tour?')">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
