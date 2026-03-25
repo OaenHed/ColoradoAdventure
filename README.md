@@ -125,7 +125,13 @@ Press **F5** (or click the green ▶ **Run** button) to build and launch the app
 Visual Studio will:
 - Build the project
 - Start the Kestrel development web server
-- Open your default browser at `https://localhost:{port}`
+- Automatically open your default browser
+
+The app is available at:
+- **HTTPS:** `https://localhost:7243` *(recommended)*
+- **HTTP:** `http://localhost:5141`
+
+> **Browser didn't open?** Manually navigate to `https://localhost:7243` in any browser while the app is running.
 
 You should see the Colorado Adventure homepage with the hero section and featured tours. 🚣
 
@@ -192,6 +198,19 @@ dotnet ef database update
 # 3. Run the app
 dotnet run
 ```
+
+After `dotnet run` starts, the console will print lines like:
+
+```
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: https://localhost:7243
+      Now listening on: http://localhost:5141
+```
+
+**Open your browser and go to `https://localhost:7243`** (or `http://localhost:5141` if you prefer HTTP).
+
+> **Note:** Unlike Visual Studio, `dotnet run` does **not** open a browser automatically — you must open it yourself.  
+> To stop the app, press **Ctrl+C** in the terminal.
 
 ---
 
