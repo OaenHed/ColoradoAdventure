@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 // When the compiled executable is launched directly from the build output directory
-// (e.g. bin\Debug\net9.0), the content root defaults to AppContext.BaseDirectory and
+// (e.g. bin\Debug\net8.0), the content root defaults to AppContext.BaseDirectory and
 // ASP.NET Core cannot find the wwwroot folder that sits in the project root.
 // Walk up parent directories to find the closest ancestor containing a wwwroot folder
 // and use it as the content root. This is a no-op in published deployments because
