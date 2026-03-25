@@ -3,7 +3,29 @@ using ColoradoAdventure.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+// When the compiled executable is launched directly from the build output directory
+// (e.g. bin\Debug\net10.0), the content root defaults to AppContext.BaseDirectory and
+// ASP.NET Core cannot find the wwwroot folder that sits in the project root.
+// Walk up parent directories to find the closest ancestor containing a wwwroot folder
+// and use it as the content root. This is a no-op in published deployments because
+// the publish output places wwwroot alongside the executable.
+static string ResolveContentRoot()
+{
+    var dir = new DirectoryInfo(AppContext.BaseDirectory);
+    while (dir is not null)
+    {
+        if (Directory.Exists(Path.Combine(dir.FullName, "wwwroot")))
+            return dir.FullName;
+        dir = dir.Parent;
+    }
+    return AppContext.BaseDirectory;
+}
+
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ContentRootPath = ResolveContentRoot()
+});
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
